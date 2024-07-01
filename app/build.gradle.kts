@@ -1,7 +1,7 @@
 plugins {
-    alias(libs.plugins.mapsplatform.secrets.plugin)
+    alias(libs.plugins.runkeeper.android.application.compose)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.runkeeper.android.application)
+    alias(libs.plugins.mapsplatform.secrets.plugin)
 }
 
 android {
@@ -12,13 +12,6 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-    }
-
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
     }
     packaging {
         resources {

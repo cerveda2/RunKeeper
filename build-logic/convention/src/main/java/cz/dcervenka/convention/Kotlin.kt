@@ -11,15 +11,15 @@ internal fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension<*, *, *, *, *>
 ) {
     commonExtension.apply {
-         compileSdk = libs.findVersion("projectCompileSdkVersion").get().toString().toInt()
-         defaultConfig.minSdk = libs.findVersion("projectMinSdkVersion").get().toString().toInt()
+        compileSdk = libVersionInt("projectCompileSdkVersion")
+        defaultConfig.minSdk = libVersionInt("projectMinSdkVersion")
 
-         compileOptions {
-             isCoreLibraryDesugaringEnabled = true
-             sourceCompatibility = JavaVersion.VERSION_11
-             targetCompatibility = JavaVersion.VERSION_11
-         }
-     }
+        compileOptions {
+            isCoreLibraryDesugaringEnabled = true
+            sourceCompatibility = JavaVersion.VERSION_11
+            targetCompatibility = JavaVersion.VERSION_11
+        }
+    }
 
     configureKotlin()
 
