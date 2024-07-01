@@ -123,3 +123,6 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 runkeeper-android-application = { id = "runkeeper.android.application", version = "unspecified" }
 runkeeper-android-application-compose = { id = "runkeeper.android.application.compose", version = "unspecified" }
 runkeeper-android-library = { id = "runkeeper.android.library", version = "unspecified" }
+runkeeper-android-library-compose = { id = "runkeeper.android.library.compose", version = "unspecified" }
+
+

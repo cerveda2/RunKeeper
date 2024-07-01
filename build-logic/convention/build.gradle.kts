@@ -26,5 +26,9 @@ gradlePlugin {
             id = "runkeeper.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
         }
+        register("androidComposeLibrary") {
+            id = "runkeeper.android.library.compose"
+            implementationClass = "AndroidLibraryComposeConventionPlugin"
+        }
     }
 }
