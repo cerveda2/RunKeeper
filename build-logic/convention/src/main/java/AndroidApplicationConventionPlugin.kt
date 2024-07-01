@@ -1,4 +1,6 @@
 import com.android.build.api.dsl.ApplicationExtension
+import cz.dcervenka.convention.ExtensionType
+import cz.dcervenka.convention.configureBuildTypes
 import cz.dcervenka.convention.configureKotlinAndroid
 import cz.dcervenka.convention.libVersionInt
 import cz.dcervenka.convention.libVersionString
@@ -24,8 +26,12 @@ class AndroidApplicationConventionPlugin: Plugin<Project> {
                 }
 
                 configureKotlinAndroid(this)
-            }
 
+                configureBuildTypes(
+                    commontExtension = this,
+                    extensionType = ExtensionType.APPLICATION
+                )
+            }
         }
     }
 }
