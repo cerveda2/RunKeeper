@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.runkeeper.android.application.compose)
+    alias(libs.plugins.runkeeper.jvm.ktor)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.mapsplatform.secrets.plugin)
 }

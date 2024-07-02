@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.runkeeper.android.library)
+    alias(libs.plugins.runkeeper.jvm.ktor)
 }
 
 android {
