@@ -30,5 +30,9 @@ gradlePlugin {
             id = "runkeeper.android.library.compose"
             implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
+        register("androidCFeatureUiLibrary") {
+            id = "runkeeper.android.feature.ui"
+            implementationClass = "AndroidFeatureUiConventionPlugin"
+        }
     }
 }
