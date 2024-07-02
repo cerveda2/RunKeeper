@@ -26,13 +26,17 @@ gradlePlugin {
             id = "runkeeper.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
         }
-        register("androidComposeLibrary") {
+        register("androidLibraryCompose") {
             id = "runkeeper.android.library.compose"
             implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
-        register("androidCFeatureUiLibrary") {
+        register("androidFeatureUi") {
             id = "runkeeper.android.feature.ui"
             implementationClass = "AndroidFeatureUiConventionPlugin"
+        }
+        register("androidRoom") {
+            id = "runkeeper.android.room"
+            implementationClass = "AndroidRoomConventionPlugin"
         }
     }
 }
