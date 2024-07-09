@@ -2,6 +2,7 @@ import com.android.build.api.dsl.LibraryExtension
 import cz.dcervenka.convention.ExtensionType
 import cz.dcervenka.convention.configureBuildTypes
 import cz.dcervenka.convention.configureKotlinAndroid
+import cz.dcervenka.convention.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -21,7 +22,7 @@ class AndroidLibraryConventionPlugin: Plugin<Project> {
                 configureKotlinAndroid(this)
 
                 configureBuildTypes(
-                    commontExtension = this,
+                    commonExtension = this,
                     extensionType = ExtensionType.LIBRARY
                 )
 
@@ -33,6 +34,15 @@ class AndroidLibraryConventionPlugin: Plugin<Project> {
 
             dependencies {
                 "testImplementation"(kotlin("test"))
+
+                "testImplementation"(libs.findLibrary("junit").get())
+                "androidTestImplementation"(libs.findLibrary("androidx.junit").get())
+
+                /* Maybe add if needed
+                "androidTestImplementation"(libs.findLibrary("androidx.espresso.core").get())
+                "androidTestImplementation"(libs.findLibrary("androidx.compose.ui.test.junit4").get())
+                "debugImplementation"(libs.findLibrary("androidx.compose.ui.tooling").get())
+                "debugImplementation"(libs.findLibrary("androidx.compose.ui.test.manifest").get())*/
             }
         }
     }

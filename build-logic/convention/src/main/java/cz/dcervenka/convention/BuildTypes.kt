@@ -9,10 +9,10 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 
 internal fun Project.configureBuildTypes(
-    commontExtension: CommonExtension<*, *, *, *, *, *>,
+    commonExtension: CommonExtension<*, *, *, *, *, *>,
     extensionType: ExtensionType,
 ) {
-    commontExtension.run {
+    commonExtension.run {
         buildFeatures {
             buildConfig = true
         }
@@ -26,7 +26,7 @@ internal fun Project.configureBuildTypes(
                             configureDebugBuildType(apiKey)
                         }
                         release {
-                            configureReleaseBuildType(commontExtension, apiKey)
+                            configureReleaseBuildType(commonExtension, apiKey)
                         }
                     }
                 }
@@ -38,7 +38,7 @@ internal fun Project.configureBuildTypes(
                             configureDebugBuildType(apiKey)
                         }
                         release {
-                            configureReleaseBuildType(commontExtension, apiKey)
+                            configureReleaseBuildType(commonExtension, apiKey)
                         }
                     }
                 }
@@ -53,7 +53,7 @@ private fun BuildType.configureDebugBuildType(apiKey: String) {
 }
 
 private fun BuildType.configureReleaseBuildType(
-    commontExtension: CommonExtension<*, *, *, *, *, *>,
+    commonExtension: CommonExtension<*, *, *, *, *, *>,
     apiKey: String
 ) {
     buildConfigField("String", "API_KEY", "\"$apiKey\"")
@@ -61,7 +61,7 @@ private fun BuildType.configureReleaseBuildType(
 
     isMinifyEnabled = true
     proguardFiles(
-        commontExtension.getDefaultProguardFile("proguard-android-optimize.txt"),
+        commonExtension.getDefaultProguardFile("proguard-android-optimize.txt"),
         "proguard-rules.pro"
     )
 }
