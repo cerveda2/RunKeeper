@@ -37,8 +37,8 @@ fun ActionButton(
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onPrimary,
-            disabledContentColor = Gray,
-            disabledContainerColor = Black,
+            disabledContainerColor = Gray,
+            disabledContentColor = Black
         ),
         shape = RoundedCornerShape(100f),
         modifier = modifier
