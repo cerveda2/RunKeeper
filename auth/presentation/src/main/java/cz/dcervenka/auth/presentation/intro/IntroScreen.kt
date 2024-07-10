@@ -69,7 +69,7 @@ fun IntroScreen(
                 style = MaterialTheme.typography.bodySmall,
             )
             Spacer(modifier = Modifier.height(32.dp))
-            ActionButton(
+            OutlinedActionButton(
                 text = stringResource(id = R.string.sign_in),
                 isLoading = false,
                 modifier = Modifier.fillMaxWidth(),
@@ -78,7 +78,7 @@ fun IntroScreen(
                 }
             )
             Spacer(modifier = Modifier.height(16.dp))
-            OutlinedActionButton(
+            ActionButton(
                 text = stringResource(id = R.string.sign_up),
                 isLoading = false,
                 modifier = Modifier.fillMaxWidth(),
