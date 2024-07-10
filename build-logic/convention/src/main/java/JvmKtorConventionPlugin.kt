@@ -1,10 +1,9 @@
-import cz.dcervenka.convention.configureKotlinJvm
 import cz.dcervenka.convention.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 
-class JvmKtorConventionPlugin: Plugin<Project> {
+class JvmKtorConventionPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
         target.run {

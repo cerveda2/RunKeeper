@@ -18,7 +18,7 @@ internal fun Project.configureBuildTypes(
         }
 
         val apiKey = gradleLocalProperties(rootDir, rootProject.providers).getProperty("API_KEY")
-        when(extensionType) {
+        when (extensionType) {
             ExtensionType.APPLICATION -> {
                 extensions.configure<ApplicationExtension> {
                     buildTypes {
@@ -31,6 +31,7 @@ internal fun Project.configureBuildTypes(
                     }
                 }
             }
+
             ExtensionType.LIBRARY -> {
                 extensions.configure<LibraryExtension> {
                     buildTypes {

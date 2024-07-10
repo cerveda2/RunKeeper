@@ -16,7 +16,7 @@ import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.coroutines.CancellationException
 import kotlinx.serialization.SerializationException
 
-suspend inline fun <reified Response: Any> HttpClient.get(
+suspend inline fun <reified Response : Any> HttpClient.get(
     route: String,
     queryParameters: Map<String, Any?> = mapOf()
 ): Result<Response, DataError.Network> {
@@ -30,7 +30,7 @@ suspend inline fun <reified Response: Any> HttpClient.get(
     }
 }
 
-suspend inline fun <reified Request, reified Response: Any> HttpClient.post(
+suspend inline fun <reified Request, reified Response : Any> HttpClient.post(
     route: String,
     body: Request
 ): Result<Response, DataError.Network> {
@@ -42,7 +42,7 @@ suspend inline fun <reified Request, reified Response: Any> HttpClient.post(
     }
 }
 
-suspend inline fun <reified Response: Any> HttpClient.delete(
+suspend inline fun <reified Response : Any> HttpClient.delete(
     route: String,
     queryParameters: Map<String, Any?> = mapOf()
 ): Result<Response, DataError.Network> {

@@ -34,7 +34,8 @@ class RegisterViewModel(
 
         state.password.textAsFlow()
             .onEach { password ->
-                val passwordValidationState = userDataValidator.validatePassword(password.toString())
+                val passwordValidationState =
+                    userDataValidator.validatePassword(password.toString())
                 state = state.copy(
                     passwordValidationState = passwordValidationState,
                     canRegister = state.isEmailValid && passwordValidationState.isValid

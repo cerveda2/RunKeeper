@@ -154,7 +154,7 @@ fun PasswordTextField(
 
 @Preview
 @Composable
-private fun RuniqueTextFieldPreview() {
+private fun RunKeeperTextFieldPreview() {
     RunKeeperTheme {
         PasswordTextField(
             state = rememberTextFieldState(),

@@ -9,7 +9,7 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import timber.log.Timber
 
-class RunKeeperApp: Application() {
+class RunKeeperApp : Application() {
     override fun onCreate() {
         super.onCreate()
         if (BuildConfig.DEBUG) {

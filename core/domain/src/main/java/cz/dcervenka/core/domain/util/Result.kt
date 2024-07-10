@@ -2,9 +2,9 @@ package cz.dcervenka.core.domain.util
 
 typealias RootError = Error
 
-sealed interface Result<out D, out E: RootError> {
-    data class Success<out D>(val data: D): Result<D, Nothing>
-    data class Error<out E: RootError>(val error: E): Result<Nothing, E>
+sealed interface Result<out D, out E : RootError> {
+    data class Success<out D>(val data: D) : Result<D, Nothing>
+    data class Error<out E : RootError>(val error: E) : Result<Nothing, E>
 }
 
 inline fun <T, E : RootError, R> Result<T, E>.map(map: (T) -> R): Result<R, E> {
@@ -14,8 +14,8 @@ inline fun <T, E : RootError, R> Result<T, E>.map(map: (T) -> R): Result<R, E> {
     }
 }
 
-fun <T, E: RootError> Result<T, E>.asEmptyDataResult(): EmptyDataResult<E> {
-    return map {  }
+fun <T, E : RootError> Result<T, E>.asEmptyDataResult(): EmptyDataResult<E> {
+    return map { }
 }
 
 typealias EmptyDataResult<E> = Result<Unit, E>
