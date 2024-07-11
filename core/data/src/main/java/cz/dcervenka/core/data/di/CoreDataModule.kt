@@ -1,6 +1,5 @@
 package cz.dcervenka.core.data.di
 
-import android.content.SharedPreferences
 import cz.dcervenka.core.data.auth.EncryptedSessionStorage
 import cz.dcervenka.core.data.networking.HttpClientFactory
 import cz.dcervenka.core.domain.SessionStorage
@@ -10,7 +9,7 @@ import org.koin.dsl.module
 
 val coreDataModule = module {
     single {
-        HttpClientFactory().build()
+        HttpClientFactory(get()).build()
     }
     singleOf(::EncryptedSessionStorage).bind<SessionStorage>()
 }
