@@ -3,7 +3,9 @@ package cz.dcervenka.runkeeper.di
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
+import cz.dcervenka.runkeeper.MainViewModel
 import org.koin.android.ext.koin.androidApplication
+import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 
 val appModule = module {
@@ -16,4 +18,6 @@ val appModule = module {
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM,
         )
     }
+
+    viewModelOf(::MainViewModel)
 }
