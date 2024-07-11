@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import cz.dcervenka.auth.domain.PasswordValidationState
 import cz.dcervenka.auth.domain.UserDataValidator
 import cz.dcervenka.auth.presentation.R
+import cz.dcervenka.auth.presentation.login.LoginAction
 import cz.dcervenka.core.presentation.designsystem.CheckIcon
 import cz.dcervenka.core.presentation.designsystem.CrossIcon
 import cz.dcervenka.core.presentation.designsystem.DarkRed
@@ -83,7 +84,13 @@ fun RegisterScreenRoot(
 
     RegisterScreen(
         state = viewModel.state,
-        onAction = viewModel::onAction,
+        onAction = { action ->
+            when (action) {
+                is RegisterAction.OnLoginClick -> onSignInClick()
+                else -> Unit
+            }
+            viewModel.onAction(action)
+        },
     )
 }
 
@@ -111,7 +118,7 @@ fun RegisterScreen(
                 withStyle(
                     style = SpanStyle(
                         fontFamily = Poppins,
-                        color = Gray,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 ) {
                     append(stringResource(id = R.string.already_have_an_account) + " ")
