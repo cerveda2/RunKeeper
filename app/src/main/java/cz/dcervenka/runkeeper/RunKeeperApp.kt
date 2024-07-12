@@ -4,6 +4,7 @@ import android.app.Application
 import cz.dcervenka.auth.data.di.authDataModule
 import cz.dcervenka.auth.presentation.di.authViewModelModule
 import cz.dcervenka.core.data.di.coreDataModule
+import cz.dcervenka.run.presentation.di.runViewModelModule
 import cz.dcervenka.runkeeper.di.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -25,6 +26,7 @@ class RunKeeperApp : Application() {
                 authViewModelModule,
                 appModule,
                 coreDataModule,
+                runViewModelModule,
             )
         }
     }
