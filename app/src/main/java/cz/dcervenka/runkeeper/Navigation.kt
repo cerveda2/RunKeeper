@@ -1,6 +1,5 @@
 package cz.dcervenka.runkeeper
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -10,6 +9,7 @@ import androidx.navigation.compose.navigation
 import cz.dcervenka.auth.presentation.intro.IntroScreenRoot
 import cz.dcervenka.auth.presentation.login.LoginScreenRoot
 import cz.dcervenka.auth.presentation.register.RegisterScreenRoot
+import cz.dcervenka.run.presentation.run_overview.RunOverviewScreenRoot
 
 @Composable
 fun NavigationRoot(
@@ -79,7 +79,7 @@ private fun NavGraphBuilder.runGraph(navController: NavHostController) {
         route = "run",
     ) {
         composable(route = "run_overview") {
-            Text(text = "Run overview")
+            RunOverviewScreenRoot()
         }
     }
 }
