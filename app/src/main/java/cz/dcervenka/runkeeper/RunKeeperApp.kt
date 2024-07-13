@@ -4,14 +4,20 @@ import android.app.Application
 import cz.dcervenka.auth.data.di.authDataModule
 import cz.dcervenka.auth.presentation.di.authViewModelModule
 import cz.dcervenka.core.data.di.coreDataModule
-import cz.dcervenka.run.presentation.di.runViewModelModule
+import cz.dcervenka.run.location.di.locationModule
+import cz.dcervenka.run.presentation.di.runPresentationModule
 import cz.dcervenka.runkeeper.di.appModule
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import timber.log.Timber
 
 class RunKeeperApp : Application() {
+
+    val applicationScope = CoroutineScope(SupervisorJob())
+
     override fun onCreate() {
         super.onCreate()
         if (BuildConfig.DEBUG) {
@@ -26,7 +32,8 @@ class RunKeeperApp : Application() {
                 authViewModelModule,
                 appModule,
                 coreDataModule,
-                runViewModelModule,
+                runPresentationModule,
+                locationModule,
             )
         }
     }
