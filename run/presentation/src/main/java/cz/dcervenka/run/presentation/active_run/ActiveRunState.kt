@@ -1,6 +1,6 @@
 package cz.dcervenka.run.presentation.active_run
 
-import android.location.Location
+import cz.dcervenka.core.domain.location.Location
 import cz.dcervenka.run.domain.RunData
 import kotlin.time.Duration
 
