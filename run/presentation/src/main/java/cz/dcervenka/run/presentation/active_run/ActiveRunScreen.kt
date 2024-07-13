@@ -32,6 +32,7 @@ import cz.dcervenka.core.presentation.designsystem.components.RunKeeperScaffold
 import cz.dcervenka.core.presentation.designsystem.components.RunKeeperToolbar
 import cz.dcervenka.run.presentation.R
 import cz.dcervenka.run.presentation.active_run.components.RunDataCard
+import cz.dcervenka.run.presentation.active_run.maps.TrackerMap
 import cz.dcervenka.run.presentation.util.hasLocationPermission
 import cz.dcervenka.run.presentation.util.hasNotificationPermission
 import cz.dcervenka.run.presentation.util.shouldShowLocationPermissionRationale
@@ -133,6 +134,13 @@ private fun ActiveRunScreen(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.surface)
         ) {
+            TrackerMap(
+                isRunFinished = state.isRunFinished,
+                currentLocation = state.currentLocation,
+                locations = state.runData.locations,
+                onSnapshot = { },
+                modifier = Modifier.fillMaxSize()
+            )
             RunDataCard(
                 elapsedTime = state.elapsedTime,
                 runData = state.runData,
