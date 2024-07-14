@@ -34,6 +34,7 @@ import cz.dcervenka.core.presentation.designsystem.components.RunKeeperToolbar
 import cz.dcervenka.run.presentation.R
 import cz.dcervenka.run.presentation.active_run.components.RunDataCard
 import cz.dcervenka.run.presentation.active_run.maps.TrackerMap
+import cz.dcervenka.run.presentation.active_run.service.ActiveRunService
 import cz.dcervenka.run.presentation.util.hasLocationPermission
 import cz.dcervenka.run.presentation.util.hasNotificationPermission
 import cz.dcervenka.run.presentation.util.shouldShowLocationPermissionRationale
@@ -42,10 +43,12 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ActiveRunScreenRoot(
+    onServiceToggle: (isServiceRunning: Boolean) -> Unit,
     viewModel: ActiveRunViewModel = koinViewModel(),
 ) {
     ActiveRunScreen(
         state = viewModel.state,
+        onServiceToggle = onServiceToggle,
         onAction = viewModel::onAction
     )
 }
@@ -53,6 +56,7 @@ fun ActiveRunScreenRoot(
 @Composable
 private fun ActiveRunScreen(
     state: ActiveRunState,
+    onServiceToggle: (isServiceRunning: Boolean) -> Unit,
     onAction: (ActiveRunAction) -> Unit
 ) {
     val context = LocalContext.current
@@ -105,6 +109,18 @@ private fun ActiveRunScreen(
 
         if (!showLocationRationale && !showNotificationRationale) {
             permissionLauncher.requestRunKeeperPermissions(context)
+        }
+    }
+
+    LaunchedEffect(state.shouldTrack) {
+        if (context.hasLocationPermission() && state.shouldTrack && !ActiveRunService.isServiceActive) {
+            onServiceToggle(true)
+        }
+    }
+
+    LaunchedEffect(state.isRunFinished) {
+        if (state.isRunFinished) {
+            onServiceToggle(false)
         }
     }
 
@@ -241,6 +257,7 @@ private fun ActiveRunScreenPreview() {
     RunKeeperTheme {
         ActiveRunScreen(
             state = ActiveRunState(),
+            onServiceToggle = {},
             onAction = {}
         )
     }
