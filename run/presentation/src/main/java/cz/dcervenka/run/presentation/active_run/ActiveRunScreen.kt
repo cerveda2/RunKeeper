@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import cz.dcervenka.core.presentation.designsystem.RunKeeperTheme
 import cz.dcervenka.core.presentation.designsystem.StartIcon
 import cz.dcervenka.core.presentation.designsystem.StopIcon
+import cz.dcervenka.core.presentation.designsystem.components.ActionButton
 import cz.dcervenka.core.presentation.designsystem.components.OutlinedActionButton
 import cz.dcervenka.core.presentation.designsystem.components.RunKeeperDialog
 import cz.dcervenka.core.presentation.designsystem.components.RunKeeperFab
@@ -150,6 +151,32 @@ private fun ActiveRunScreen(
                     .fillMaxWidth()
             )
         }
+    }
+
+    if (!state.shouldTrack && state.hasStartedRunning) {
+        RunKeeperDialog(
+            title = stringResource(id = R.string.run_paused),
+            onDismiss = { onAction(ActiveRunAction.OnResumeRunClick) },
+            description = stringResource(id = R.string.resume_or_finish_run),
+            primaryButton = {
+                ActionButton(
+                    text = stringResource(id = R.string.resume),
+                    isLoading = false,
+                    onClick = { onAction(ActiveRunAction.OnResumeRunClick) },
+                    modifier = Modifier.weight(1f),
+                )
+            },
+            secondaryButton = {
+                OutlinedActionButton(
+                    text = stringResource(id = R.string.finish),
+                    isLoading = state.isSavingRun,
+                    onClick = {
+                        onAction(ActiveRunAction.OnFinishRunClick)
+                    },
+                    modifier = Modifier.weight(1f),
+                )
+            }
+        )
     }
 
     if (state.showLocationRationale || state.showNotificationRationale) {
