@@ -4,6 +4,7 @@ import android.app.Application
 import cz.dcervenka.auth.data.di.authDataModule
 import cz.dcervenka.auth.presentation.di.authViewModelModule
 import cz.dcervenka.core.data.di.coreDataModule
+import cz.dcervenka.core.database.di.databaseModule
 import cz.dcervenka.run.location.di.locationModule
 import cz.dcervenka.run.presentation.di.runPresentationModule
 import cz.dcervenka.runkeeper.di.appModule
@@ -34,6 +35,7 @@ class RunKeeperApp : Application() {
                 coreDataModule,
                 runPresentationModule,
                 locationModule,
+                databaseModule,
             )
         }
     }
