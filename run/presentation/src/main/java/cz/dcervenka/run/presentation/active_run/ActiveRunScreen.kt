@@ -3,6 +3,7 @@
 package cz.dcervenka.run.presentation.active_run
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.os.Build
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -17,6 +18,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -39,7 +41,11 @@ import cz.dcervenka.run.presentation.util.hasLocationPermission
 import cz.dcervenka.run.presentation.util.hasNotificationPermission
 import cz.dcervenka.run.presentation.util.shouldShowLocationPermissionRationale
 import cz.dcervenka.run.presentation.util.shouldShowNotificationPermissionRationale
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.androidx.compose.koinViewModel
+import java.io.ByteArrayOutputStream
 
 @Composable
 fun ActiveRunScreenRoot(
@@ -151,11 +157,27 @@ private fun ActiveRunScreen(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.surface)
         ) {
+            val coroutineScope = rememberCoroutineScope()
             TrackerMap(
                 isRunFinished = state.isRunFinished,
                 currentLocation = state.currentLocation,
                 locations = state.runData.locations,
-                onSnapshot = { },
+                onSnapshot = { bmp ->
+                    coroutineScope.launch {
+                        val byteArray = withContext(Dispatchers.IO) {
+                            val stream = ByteArrayOutputStream()
+                            stream.use {
+                                bmp.compress(
+                                    Bitmap.CompressFormat.JPEG,
+                                    80,
+                                    it
+                                )
+                            }
+                            stream.toByteArray()
+                        }
+                        onAction(ActiveRunAction.OnRunProcessed(byteArray))
+                    }
+                },
                 modifier = Modifier.fillMaxSize()
             )
             RunDataCard(
