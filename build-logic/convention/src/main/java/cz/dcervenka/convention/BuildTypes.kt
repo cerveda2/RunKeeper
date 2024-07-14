@@ -18,15 +18,16 @@ internal fun Project.configureBuildTypes(
         }
 
         val apiKey = gradleLocalProperties(rootDir, rootProject.providers).getProperty("API_KEY")
+        val baseUrl = gradleLocalProperties(rootDir, rootProject.providers).getProperty("BASE_URL")
         when (extensionType) {
             ExtensionType.APPLICATION -> {
                 extensions.configure<ApplicationExtension> {
                     buildTypes {
                         debug {
-                            configureDebugBuildType(apiKey)
+                            configureDebugBuildType(apiKey, baseUrl)
                         }
                         release {
-                            configureReleaseBuildType(commonExtension, apiKey)
+                            configureReleaseBuildType(commonExtension, apiKey, baseUrl)
                         }
                     }
                 }
@@ -36,10 +37,10 @@ internal fun Project.configureBuildTypes(
                 extensions.configure<LibraryExtension> {
                     buildTypes {
                         debug {
-                            configureDebugBuildType(apiKey)
+                            configureDebugBuildType(apiKey, baseUrl)
                         }
                         release {
-                            configureReleaseBuildType(commonExtension, apiKey)
+                            configureReleaseBuildType(commonExtension, apiKey, baseUrl)
                         }
                     }
                 }
@@ -48,17 +49,18 @@ internal fun Project.configureBuildTypes(
     }
 }
 
-private fun BuildType.configureDebugBuildType(apiKey: String) {
+private fun BuildType.configureDebugBuildType(apiKey: String, baseUrl: String) {
     buildConfigField("String", "API_KEY", "\"$apiKey\"")
-    buildConfigField("String", "BASE_URL", "\"https://runique.pl-coding.com:8080\"")
+    buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
 }
 
 private fun BuildType.configureReleaseBuildType(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
-    apiKey: String
+    apiKey: String,
+    baseUrl: String,
 ) {
     buildConfigField("String", "API_KEY", "\"$apiKey\"")
-    buildConfigField("String", "BASE_URL", "\"https://runique.pl-coding.com:8080\"")
+    buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
 
     isMinifyEnabled = true
     proguardFiles(
