@@ -36,10 +36,11 @@ include(":run:domain")
 include(":run:presentation")
 include(":run:location")
 include(":run:network")
-
-// If the project has build-logic module with convention module. (for example: https://github.com/android/nowinandroid/tree/main/build-logic)
-gradle.startParameter.excludedTaskNames.addAll(listOf(":build-logic:convention:testClasses"))
 include(":analytics:data")
 include(":analytics:domain")
 include(":analytics:presentation")
-include(":analytics:analytics-feature")
+include(":analytics:analytics_feature")
+
+// If the project has build-logic module with convention module. (for example: https://github.com/android/nowinandroid/tree/main/build-logic)
+gradle.startParameter.excludedTaskNames.addAll(listOf(":build-logic:convention:testClasses"))
+
