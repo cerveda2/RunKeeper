@@ -100,7 +100,10 @@ fun RunKeeperToolbar(
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
                                 modifier = Modifier
-                                    .clickable { onMenuItemClick(index) }
+                                    .clickable {
+                                        onMenuItemClick(index)
+                                        isDropDownOpen = false
+                                    }
                                     .fillMaxWidth()
                                     .padding(16.dp)
                             ) {

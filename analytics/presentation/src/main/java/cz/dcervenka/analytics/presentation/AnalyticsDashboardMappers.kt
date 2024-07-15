@@ -1,11 +1,11 @@
 package cz.dcervenka.analytics.presentation
 
 import cz.dcervenka.analytics.domain.AnalyticsValues
-import cz.dcervenka.core.presentation.ui.formatted
 import cz.dcervenka.core.presentation.ui.toFormattedKm
 import cz.dcervenka.core.presentation.ui.toFormattedKmh
+import cz.dcervenka.core.presentation.ui.toFormattedPace
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.seconds
+import kotlin.time.Duration.Companion.minutes
 import kotlin.time.DurationUnit
 
 fun Duration.toFormattedTotalTime(): String {
@@ -22,6 +22,6 @@ fun AnalyticsValues.toAnalyticsDashboardState(): AnalyticsDashboardState {
         totalTimeRun = totalTimeRun.toFormattedTotalTime(),
         fastestEverRun = fastestEverRun.toFormattedKmh(),
         avgDistance = (avgDistancePerRun / 1000.0).toFormattedKm(),
-        avgPace = avgPacePerRun.seconds.formatted()
+        avgPace = avgPacePerRun.minutes.toFormattedPace(null)
     )
 }
