@@ -3,8 +3,10 @@ package cz.dcervenka.core.database.entity
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.RoomWarnings
 
 @Entity
+@SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
 data class RunPendingSyncEntity(
     @Embedded val run: RunEntity,
     @PrimaryKey(autoGenerate = false)
