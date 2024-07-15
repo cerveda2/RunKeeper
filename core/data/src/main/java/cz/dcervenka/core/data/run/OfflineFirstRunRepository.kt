@@ -8,6 +8,7 @@ import cz.dcervenka.core.domain.run.RemoteRunDataSource
 import cz.dcervenka.core.domain.run.Run
 import cz.dcervenka.core.domain.run.RunId
 import cz.dcervenka.core.domain.run.RunRepository
+import cz.dcervenka.core.domain.run.SyncRunScheduler
 import cz.dcervenka.core.domain.util.DataError
 import cz.dcervenka.core.domain.util.EmptyResult
 import cz.dcervenka.core.domain.util.Result
@@ -26,6 +27,7 @@ class OfflineFirstRunRepository(
     private val applicationScope: CoroutineScope,
     private val runPendingSyncDao: RunPendingSyncDao,
     private val sessionStorage: SessionStorage,
+    private val syncRunScheduler: SyncRunScheduler,
 ) : RunRepository {
 
     override fun getRuns(): Flow<List<Run>> {
@@ -57,7 +59,14 @@ class OfflineFirstRunRepository(
 
         return when (remoteResult) {
             is Result.Error -> {
-                // TODO handle this later
+                applicationScope.launch {
+                    syncRunScheduler.scheduleSync(
+                        type = SyncRunScheduler.SyncType.CreateRun(
+                            run = runWithId,
+                            mapPictureBytes = mapPicture
+                        )
+                    )
+                }.join()
                 Result.Success(Unit)
             }
 
@@ -83,6 +92,14 @@ class OfflineFirstRunRepository(
         val remoteResult = applicationScope.async {
             remoteRunDataSource.deleteRun(id)
         }.await()
+
+        if (remoteResult is Result.Error) {
+            applicationScope.launch {
+                syncRunScheduler.scheduleSync(
+                    type = SyncRunScheduler.SyncType.DeleteRun(id)
+                )
+            }.join()
+        }
     }
 
     override suspend fun syncPendingRuns() {

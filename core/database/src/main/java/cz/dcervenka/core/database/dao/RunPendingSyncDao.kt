@@ -2,6 +2,7 @@ package cz.dcervenka.core.database.dao
 
 import androidx.room.Dao
 import androidx.room.Query
+import cz.dcervenka.core.database.entity.DeletedRunSyncEntity
 import cz.dcervenka.core.database.entity.RunPendingSyncEntity
 
 @Dao
@@ -25,7 +26,7 @@ interface RunPendingSyncDao {
     @Query("SELECT * FROM deletedrunsyncentity WHERE userId = :userId")
     suspend fun getAllDeletedRunSyncEntities(userId: String): List<RunPendingSyncEntity>
 
-    suspend fun upsertDeletedRunSyncEntity(entity: RunPendingSyncEntity)
+    suspend fun upsertDeletedRunSyncEntity(entity: DeletedRunSyncEntity)
 
     @Query("DELETE FROM deletedrunsyncentity WHERE runId = :runId")
     suspend fun deleteDeletedRunSyncEntity(runId: String)
