@@ -38,6 +38,10 @@ gradlePlugin {
             id = "runkeeper.android.room"
             implementationClass = "AndroidRoomConventionPlugin"
         }
+        register("androidDynamicFeature") {
+            id = "runkeeper.android.dynamic.feature"
+            implementationClass = "AndroidDynamicFeatureConventionPlugin"
+        }
         register("jvmLibrary") {
             id = "runkeeper.jvm.library"
             implementationClass = "JvmLibraryConventionPlugin"

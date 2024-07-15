@@ -124,8 +124,10 @@ runkeeper-android-library = { id = "runkeeper.android.library", version = "unspe
 runkeeper-android-library-compose = { id = "runkeeper.android.library.compose", version = "unspecified" }
 runkeeper-android-feature-ui = { id = "runkeeper.android.feature.ui", version = "unspecified" }
 runkeeper-android-room = { id = "runkeeper.android.room", version = "unspecified" }
+runkeeper-android-dynamic-feature = { id = "runkeeper.android.dynamic.feature", version = "unspecified" }
 runkeeper-jvm-library = { id = "runkeeper.jvm.library", version = "unspecified" }
 runkeeper-jvm-ktor = { id = "runkeeper.jvm.ktor", version = "unspecified" }
+
 
 [bundles]
 compose = [
