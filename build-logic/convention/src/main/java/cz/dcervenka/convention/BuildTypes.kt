@@ -28,7 +28,7 @@ internal fun Project.configureBuildTypes(
                             configureDebugBuildType(apiKey, baseUrl)
                         }
                         release {
-                            configureReleaseBuildType(commonExtension, apiKey, baseUrl)
+                            configureReleaseBuildType(commonExtension, apiKey, baseUrl, true)
                         }
                     }
                 }
@@ -41,7 +41,7 @@ internal fun Project.configureBuildTypes(
                             configureDebugBuildType(apiKey, baseUrl)
                         }
                         release {
-                            configureReleaseBuildType(commonExtension, apiKey, baseUrl)
+                            configureReleaseBuildType(commonExtension, apiKey, baseUrl, true)
                         }
                     }
                 }
@@ -54,7 +54,8 @@ internal fun Project.configureBuildTypes(
                             configureDebugBuildType(apiKey, baseUrl)
                         }
                         release {
-                            configureReleaseBuildType(commonExtension, apiKey, baseUrl)
+                            configureReleaseBuildType(commonExtension, apiKey, baseUrl, false)
+                            isMinifyEnabled = false
                         }
                     }
                 }
@@ -72,13 +73,18 @@ private fun BuildType.configureReleaseBuildType(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
     apiKey: String,
     baseUrl: String,
+    proguardEnabled: Boolean,
 ) {
     buildConfigField("String", "API_KEY", "\"$apiKey\"")
     buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
 
     isMinifyEnabled = true
-    proguardFiles(
-        commonExtension.getDefaultProguardFile("proguard-android-optimize.txt"),
-        "proguard-rules.pro"
-    )
+    if (proguardEnabled) {
+        proguardFiles(
+            commonExtension.getDefaultProguardFile("proguard-android-optimize.txt"),
+            "proguard-rules.pro"
+        )
+    } else {
+        proguardFiles("proguard-rules.pro")
+    }
 }
