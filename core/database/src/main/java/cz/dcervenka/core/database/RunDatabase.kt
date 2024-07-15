@@ -2,6 +2,7 @@ package cz.dcervenka.core.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import cz.dcervenka.core.database.dao.AnalyticsDao
 import cz.dcervenka.core.database.dao.RunDao
 import cz.dcervenka.core.database.dao.RunPendingSyncDao
 import cz.dcervenka.core.database.entity.DeletedRunSyncEntity
@@ -20,5 +21,5 @@ abstract class RunDatabase : RoomDatabase() {
 
     abstract val runDao: RunDao
     abstract val runPendingSyncDao: RunPendingSyncDao
-
+    abstract val analyticsDao: AnalyticsDao
 }

@@ -1,6 +1,8 @@
 package cz.dcervenka.runkeeper
 
 import android.app.Application
+import android.content.Context
+import com.google.android.play.core.splitcompat.SplitCompat
 import cz.dcervenka.auth.data.di.authDataModule
 import cz.dcervenka.auth.presentation.di.authViewModelModule
 import cz.dcervenka.core.data.di.coreDataModule
@@ -44,5 +46,10 @@ class RunKeeperApp : Application() {
                 runDataModule,
             )
         }
+    }
+
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        SplitCompat.install(this)
     }
 }
