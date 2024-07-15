@@ -5,6 +5,7 @@ import cz.dcervenka.auth.data.di.authDataModule
 import cz.dcervenka.auth.presentation.di.authViewModelModule
 import cz.dcervenka.core.data.di.coreDataModule
 import cz.dcervenka.core.database.di.databaseModule
+import cz.dcervenka.run.data.di.runDataModule
 import cz.dcervenka.run.location.di.locationModule
 import cz.dcervenka.run.network.di.networkModule
 import cz.dcervenka.run.presentation.di.runPresentationModule
@@ -13,6 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
+import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.context.startKoin
 import timber.log.Timber
 
@@ -29,6 +31,7 @@ class RunKeeperApp : Application() {
         startKoin {
             androidLogger()
             androidContext(this@RunKeeperApp)
+            workManagerFactory()
             modules(
                 authDataModule,
                 authViewModelModule,
@@ -38,6 +41,7 @@ class RunKeeperApp : Application() {
                 locationModule,
                 databaseModule,
                 networkModule,
+                runDataModule,
             )
         }
     }
