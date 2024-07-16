@@ -3,6 +3,7 @@ package cz.dcervenka.wear.run.presentation
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -39,6 +40,7 @@ import cz.dcervenka.core.presentation.designsystem.FinishIcon
 import cz.dcervenka.core.presentation.designsystem.PauseIcon
 import cz.dcervenka.core.presentation.designsystem.StartIcon
 import cz.dcervenka.core.presentation.designsystem_wear.RunKeeperTheme
+import cz.dcervenka.core.presentation.ui.ObserveAsEvents
 import cz.dcervenka.core.presentation.ui.formatted
 import cz.dcervenka.core.presentation.ui.toFormattedHeartRate
 import cz.dcervenka.core.presentation.ui.toFormattedKm
@@ -49,6 +51,20 @@ import org.koin.androidx.compose.koinViewModel
 fun TrackerScreenRoot(
     viewModel: TrackerViewModel = koinViewModel(),
 ) {
+    val context = LocalContext.current
+    ObserveAsEvents(viewModel.events) { event ->
+        when (event) {
+            is TrackerEvent.Error -> {
+                Toast.makeText(
+                    context,
+                    event.message.asString(context),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            TrackerEvent.RunFinished -> Unit
+        }
+    }
     TrackerScreen(
         state = viewModel.state,
         onAction = viewModel::onAction
