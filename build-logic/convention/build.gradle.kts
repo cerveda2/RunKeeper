@@ -50,5 +50,9 @@ gradlePlugin {
             id = "runkeeper.jvm.ktor"
             implementationClass = "JvmKtorConventionPlugin"
         }
+        register("androidApplicationWearCompose") {
+            id = "runkeeper.android.application.wear.compose"
+            implementationClass = "AndroidApplicationWearComposeConventionPlugin"
+        }
     }
 }
