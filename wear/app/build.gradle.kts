@@ -23,4 +23,7 @@ dependencies {
     implementation(projects.core.presentation.designsystemWear)
     implementation(projects.wear.run.data)
     implementation(projects.wear.run.presentation)
+
+    implementation(projects.core.connectivity.domain)
+    implementation(projects.core.connectivity.data)
 }

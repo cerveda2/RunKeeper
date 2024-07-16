@@ -45,6 +45,8 @@ include(":wear:run:data")
 include(":wear:run:domain")
 include(":wear:run:presentation")
 include(":core:presentation:designsystem_wear")
+include(":core:connectivity:domain")
+include(":core:connectivity:data")
 
 // If the project has build-logic module with convention module. (for example: https://github.com/android/nowinandroid/tree/main/build-logic)
 gradle.startParameter.excludedTaskNames.addAll(listOf(":build-logic:convention:testClasses"))

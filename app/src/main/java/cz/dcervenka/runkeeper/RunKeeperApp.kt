@@ -5,6 +5,7 @@ import android.content.Context
 import com.google.android.play.core.splitcompat.SplitCompat
 import cz.dcervenka.auth.data.di.authDataModule
 import cz.dcervenka.auth.presentation.di.authViewModelModule
+import cz.dcervenka.core.connectivity.data.di.coreConnectivityDataModule
 import cz.dcervenka.core.data.di.coreDataModule
 import cz.dcervenka.core.database.di.databaseModule
 import cz.dcervenka.run.data.di.runDataModule
@@ -44,6 +45,7 @@ class RunKeeperApp : Application() {
                 databaseModule,
                 networkModule,
                 runDataModule,
+                coreConnectivityDataModule,
             )
         }
     }

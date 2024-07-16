@@ -5,6 +5,8 @@ import cz.dcervenka.run.data.CreateRunWorker
 import cz.dcervenka.run.data.DeleteRunWorker
 import cz.dcervenka.run.data.FetchRunsWorker
 import cz.dcervenka.run.data.SyncRunWorkerScheduler
+import cz.dcervenka.run.data.connectivity.PhoneToWatchConnector
+import cz.dcervenka.run.domain.WatchConnector
 import org.koin.androidx.workmanager.dsl.workerOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
@@ -16,4 +18,5 @@ val runDataModule = module {
     workerOf(::DeleteRunWorker)
 
     singleOf(::SyncRunWorkerScheduler).bind<SyncRunScheduler>()
+    singleOf(::PhoneToWatchConnector).bind<WatchConnector>()
 }
