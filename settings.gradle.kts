@@ -41,10 +41,10 @@ include(":analytics:domain")
 include(":analytics:presentation")
 include(":analytics:analytics_feature")
 include(":wear:app")
-
-// If the project has build-logic module with convention module. (for example: https://github.com/android/nowinandroid/tree/main/build-logic)
-gradle.startParameter.excludedTaskNames.addAll(listOf(":build-logic:convention:testClasses"))
-
 include(":wear:run:data")
 include(":wear:run:domain")
 include(":wear:run:presentation")
+include(":core:presentation:designsystem_wear")
+
+// If the project has build-logic module with convention module. (for example: https://github.com/android/nowinandroid/tree/main/build-logic)
+gradle.startParameter.excludedTaskNames.addAll(listOf(":build-logic:convention:testClasses"))
