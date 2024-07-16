@@ -72,7 +72,6 @@ class AndroidLocationObserver(
                     client.removeLocationUpdates(locationCallback)
                 }
             }
-
         }
     }
 }
