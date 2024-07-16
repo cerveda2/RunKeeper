@@ -55,7 +55,7 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
     // Location
-    implementation(libs.google.android.gms.play.services.location)
+    //implementation(libs.google.android.gms.play.services.location)
 
     // Splash screen
     implementation(libs.androidx.core.splashscreen)
