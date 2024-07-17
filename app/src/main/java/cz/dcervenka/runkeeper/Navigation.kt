@@ -12,7 +12,7 @@ import cz.dcervenka.auth.presentation.intro.IntroScreenRoot
 import cz.dcervenka.auth.presentation.login.LoginScreenRoot
 import cz.dcervenka.auth.presentation.register.RegisterScreenRoot
 import cz.dcervenka.run.presentation.active_run.ActiveRunScreenRoot
-import cz.dcervenka.run.presentation.active_run.service.ActiveRunService
+import cz.dcervenka.core.notification.ActiveRunService
 import cz.dcervenka.run.presentation.run_overview.RunOverviewScreenRoot
 
 @Composable

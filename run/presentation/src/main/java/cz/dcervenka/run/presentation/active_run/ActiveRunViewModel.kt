@@ -15,7 +15,7 @@ import cz.dcervenka.core.presentation.ui.asUiText
 import cz.dcervenka.run.domain.LocationDataCalculator
 import cz.dcervenka.run.domain.RunningTracker
 import cz.dcervenka.run.domain.WatchConnector
-import cz.dcervenka.run.presentation.active_run.service.ActiveRunService
+import cz.dcervenka.core.notification.ActiveRunService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,8 +41,8 @@ class ActiveRunViewModel(
 
     var state by mutableStateOf(
         ActiveRunState(
-            shouldTrack = ActiveRunService.isServiceActive && runningTracker.isTracking.value,
-            hasStartedRunning = ActiveRunService.isServiceActive,
+            shouldTrack = ActiveRunService.isServiceActive.value && runningTracker.isTracking.value,
+            hasStartedRunning = ActiveRunService.isServiceActive.value,
         )
     )
         private set
@@ -268,7 +268,7 @@ class ActiveRunViewModel(
 
     override fun onCleared() {
         super.onCleared()
-        if (!ActiveRunService.isServiceActive) {
+        if (!ActiveRunService.isServiceActive.value) {
             applicationScope.launch {
                 watchConnector.sendActionToWatch(MessagingAction.Untrackable)
             }
