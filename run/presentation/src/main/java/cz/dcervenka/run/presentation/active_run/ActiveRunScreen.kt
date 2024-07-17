@@ -64,7 +64,7 @@ fun ActiveRunScreenRoot(
                     context,
                     event.error.asString(context),
                     Toast.LENGTH_LONG
-                )
+                ).show()
             }
 
             ActiveRunEvent.RunSaved -> onFinish()
@@ -80,6 +80,7 @@ fun ActiveRunScreenRoot(
                         onBackClick()
                     }
                 }
+
                 else -> Unit
             }
             viewModel.onAction(action)

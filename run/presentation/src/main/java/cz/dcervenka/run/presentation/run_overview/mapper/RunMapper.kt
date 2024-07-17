@@ -2,6 +2,7 @@ package cz.dcervenka.run.presentation.run_overview.mapper
 
 import cz.dcervenka.core.domain.run.Run
 import cz.dcervenka.core.presentation.ui.formatted
+import cz.dcervenka.core.presentation.ui.toFormattedHeartRate
 import cz.dcervenka.core.presentation.ui.toFormattedKm
 import cz.dcervenka.core.presentation.ui.toFormattedKmh
 import cz.dcervenka.core.presentation.ui.toFormattedMeters
@@ -26,6 +27,8 @@ fun Run.toRunUi(): RunUi {
         distance = distanceKm.toFormattedKm(),
         avgSpeed = avgSpeedKmh.toFormattedKmh(),
         maxSpeed = maxSpeedKmh.toFormattedKmh(),
+        avgHeartRate = avgHeartRate.toFormattedHeartRate(),
+        maxHeartRate = maxHeartRate.toFormattedHeartRate(),
         pace = duration.toFormattedPace(distanceKm),
         totalElevation = totalElevationMeters.toFormattedMeters(),
         mapPictureUrl = mapPictureUrl
