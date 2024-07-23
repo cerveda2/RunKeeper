@@ -54,5 +54,13 @@ gradlePlugin {
             id = "runkeeper.android.application.wear.compose"
             implementationClass = "AndroidApplicationWearComposeConventionPlugin"
         }
+        register("jvmJUnit5") {
+            id = "runkeeper.jvm.junit"
+            implementationClass = "JvmJUnit5ConventionPlugin"
+        }
+        register("androidJUnit5") {
+            id = "runkeeper.android.junit"
+            implementationClass = "AndroidJUnit5ConventionPlugin"
+        }
     }
 }
