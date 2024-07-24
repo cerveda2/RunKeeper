@@ -1,15 +1,13 @@
 import cz.dcervenka.convention.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.withType
 
 class AndroidJUnit5ConventionPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
         target.run {
-            pluginManager.apply("runkeeper.jvm.junit5")
+            pluginManager.apply("runkeeper.jvm.junit")
             pluginManager.apply("de.mannodermaus.android-junit5")
 
             dependencies {
