@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalCoroutinesApi::class)
-
 package cz.dcervenka.run.domain
 
 import app.cash.turbine.test
@@ -11,23 +9,24 @@ import cz.dcervenka.core.connectivity.domain.messaging.MessagingAction
 import cz.dcervenka.core.domain.location.Location
 import cz.dcervenka.core.domain.location.LocationWithAltitude
 import cz.dcervenka.test.LocationObserverFake
+import cz.dcervenka.test.MainCoroutineExtension
 import cz.dcervenka.test.PhoneToWatchConnectorFake
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.test.TestDispatcher
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.RegisterExtension
 import kotlin.math.roundToInt
 
 class RunningTrackerTest {
+
+    companion object {
+        @JvmField
+        @RegisterExtension
+        val mainCoroutineExtension = MainCoroutineExtension()
+    }
 
     private lateinit var runningTracker: RunningTracker
     private lateinit var locationObserverFake: LocationObserverFake
@@ -41,21 +40,14 @@ class RunningTrackerTest {
         locationObserverFake = LocationObserverFake()
         watchConnectorFake = PhoneToWatchConnectorFake()
 
-        testDispatcher = UnconfinedTestDispatcher()
+        testDispatcher = mainCoroutineExtension.testDispatcher
         testScope = CoroutineScope(testDispatcher)
-
-        Dispatchers.setMain(testDispatcher)
 
         runningTracker = RunningTracker(
             locationObserver = locationObserverFake,
             applicationScope = testScope,
             watchConnector = watchConnectorFake
         )
-    }
-
-    @AfterEach
-    fun tearDown() {
-        Dispatchers.resetMain()
     }
 
 
