@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.runkeeper.jvm.library)
+    alias(libs.plugins.runkeeper.jvm.junit5)
 }
 
 dependencies {
@@ -7,4 +8,6 @@ dependencies {
 
     implementation(projects.core.domain)
     implementation(projects.core.connectivity.domain)
+
+    testImplementation(projects.core.test)
 }
