@@ -52,3 +52,4 @@ include(":core:test")
 
 // If the project has build-logic module with convention module. (for example: https://github.com/android/nowinandroid/tree/main/build-logic)
 gradle.startParameter.excludedTaskNames.addAll(listOf(":build-logic:convention:testClasses"))
+include(":core:android-test")
