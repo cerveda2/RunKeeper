@@ -7,7 +7,10 @@ fun MessagingAction.toMessagingActionDto(): MessagingActionDto {
         MessagingAction.ConnectionRequest -> MessagingActionDto.ConnectionRequest
         is MessagingAction.DistanceUpdate -> MessagingActionDto.DistanceUpdate(distanceMeters)
         MessagingAction.Finish -> MessagingActionDto.Finish
-        is MessagingAction.HeartRateUpdate -> MessagingActionDto.HeartRateUpdate(heartRate)
+        is MessagingAction.WatchMetricsUpdate -> MessagingActionDto.WatchMetricsUpdate(
+            heartRate = heartRate,
+            steps = steps,
+        )
         MessagingAction.Pause -> MessagingActionDto.Pause
         MessagingAction.StartOrResume -> MessagingActionDto.StartOrResume
         is MessagingAction.TimeUpdate -> MessagingActionDto.TimeUpdate(elapsedDuration)
@@ -21,7 +24,10 @@ fun MessagingActionDto.toMessagingAction(): MessagingAction {
         MessagingActionDto.ConnectionRequest -> MessagingAction.ConnectionRequest
         is MessagingActionDto.DistanceUpdate -> MessagingAction.DistanceUpdate(distanceMeters)
         MessagingActionDto.Finish -> MessagingAction.Finish
-        is MessagingActionDto.HeartRateUpdate -> MessagingAction.HeartRateUpdate(heartRate)
+        is MessagingActionDto.WatchMetricsUpdate -> MessagingAction.WatchMetricsUpdate(
+            heartRate = heartRate,
+            steps = steps,
+        )
         MessagingActionDto.Pause -> MessagingAction.Pause
         MessagingActionDto.StartOrResume -> MessagingAction.StartOrResume
         is MessagingActionDto.TimeUpdate -> MessagingAction.TimeUpdate(elapsedDuration)

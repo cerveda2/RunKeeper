@@ -46,7 +46,7 @@ class TrackerViewModel(
     )
         private set
 
-    private val hasBodySensorPermission = MutableStateFlow(false)
+    private val hasTrackingPermission = MutableStateFlow(false)
 
     private val isTracking = snapshotFlow {
         state.isRunActive && state.isTrackable && state.isConnectedPhoneNearby
@@ -110,8 +110,8 @@ class TrackerViewModel(
             .launchIn(viewModelScope)
 
         viewModelScope.launch {
-            val isHeartRateTrackingSupported = exerciseTracker.isHeartRateTrackingSupported()
-            state = state.copy(canTrackHeartRate = isHeartRateTrackingSupported)
+            val isRunningTrackingSupported = exerciseTracker.isRunningTrackingSupported()
+            state = state.copy(canTrackRunning = isRunningTrackingSupported)
         }
 
         val isAmbientMode = snapshotFlow { state.isAmbientMode }
@@ -120,14 +120,17 @@ class TrackerViewModel(
             .flatMapLatest { isAmbient ->
                 if (isAmbient) {
                     runningTracker
-                        .heartRate
+                        .exerciseMetrics
                         .sample(10.seconds)
                 } else {
-                    runningTracker.heartRate
+                    runningTracker.exerciseMetrics
                 }
             }
             .onEach {
-                state = state.copy(heartRate = it)
+                state = state.copy(
+                    heartRate = it.heartRate,
+                    steps = it.steps,
+                )
             }
             .launchIn(viewModelScope)
 
@@ -161,14 +164,14 @@ class TrackerViewModel(
             sendActionToPhone(action)
         }
         when (action) {
-            is TrackerAction.OnBodySensorPermissionResult -> {
-                hasBodySensorPermission.value = action.isGranted
+            is TrackerAction.OnPermissionResult -> {
+                hasTrackingPermission.value = action.isGranted
                 if (action.isGranted) {
                     viewModelScope.launch {
-                        val isHeartRateTrackingSupported =
-                            exerciseTracker.isHeartRateTrackingSupported()
+                        val isRunningTrackingSupported =
+                            exerciseTracker.isRunningTrackingSupported()
                         state = state.copy(
-                            canTrackHeartRate = isHeartRateTrackingSupported
+                            canTrackRunning = isRunningTrackingSupported
                         )
                     }
                 }
@@ -184,6 +187,7 @@ class TrackerViewModel(
                         elapsedDuration = Duration.ZERO,
                         distanceMeters = 0,
                         heartRate = 0,
+                        steps = 0,
                         hasStartedRunning = false,
                         isRunActive = false
                     )

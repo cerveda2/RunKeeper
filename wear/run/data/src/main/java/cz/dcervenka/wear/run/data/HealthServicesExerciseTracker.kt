@@ -26,6 +26,7 @@ import androidx.health.services.client.startExercise
 import cz.dcervenka.core.domain.util.EmptyResult
 import cz.dcervenka.core.domain.util.Result
 import cz.dcervenka.wear.run.domain.ExerciseError
+import cz.dcervenka.wear.run.domain.ExerciseMetrics
 import cz.dcervenka.wear.run.domain.ExerciseTracker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
@@ -41,7 +42,7 @@ class HealthServicesExerciseTracker(
 
     private val client = HealthServices.getClient(context).exerciseClient
 
-    override val heartRate: Flow<Int>
+    override val exerciseMetrics: Flow<ExerciseMetrics>
         get() = callbackFlow {
             val callback = object : ExerciseUpdateCallback {
                 override fun onAvailabilityChanged(
@@ -53,8 +54,16 @@ class HealthServicesExerciseTracker(
                     val heartRates = update.latestMetrics.getData(DataType.HEART_RATE_BPM)
                     val currentHeartRate = heartRates.firstOrNull()?.value
 
+                    val steps = update.latestMetrics.getData(DataType.STEPS)
+                    val currentSteps = steps.firstOrNull()?.value
+
                     currentHeartRate?.let {
-                        trySend(currentHeartRate.roundToInt())
+                        trySend(
+                            ExerciseMetrics(
+                                heartRate = currentHeartRate.roundToInt(),
+                                steps = currentSteps?.toInt() ?: 0,
+                            )
+                        )
                     }
                 }
 
@@ -78,19 +87,21 @@ class HealthServicesExerciseTracker(
             }
         }.flowOn(Dispatchers.IO)
 
-    override suspend fun isHeartRateTrackingSupported(): Boolean {
-        return hasBodySensorsPermission() && runCatching {
+    override suspend fun isRunningTrackingSupported(): Boolean {
+        return hasBodySensorsPermission() && hasActivityRecognitionPermission()
+                && runCatching {
             val capabilities = client.getCapabilities()
             val supportedDataTypes = capabilities
                 .typeToCapabilities[ExerciseType.RUNNING]
                 ?.supportedDataTypes ?: setOf()
 
             DataType.HEART_RATE_BPM in supportedDataTypes
+                    && DataType.STEPS in supportedDataTypes
         }.getOrDefault(false)
     }
 
     override suspend fun prepareExercise(): EmptyResult<ExerciseError> {
-        if (!isHeartRateTrackingSupported()) {
+        if (!isRunningTrackingSupported()) {
             return Result.Error(ExerciseError.TRACKING_NOT_SUPPORTED)
         }
 
@@ -101,7 +112,10 @@ class HealthServicesExerciseTracker(
 
         val config = WarmUpConfig(
             exerciseType = ExerciseType.RUNNING,
-            dataTypes = setOf(DataType.HEART_RATE_BPM)
+            dataTypes = setOf(
+                DataType.HEART_RATE_BPM,
+                DataType.STEPS,
+            )
         )
         client.prepareExercise(config)
 
@@ -109,7 +123,7 @@ class HealthServicesExerciseTracker(
     }
 
     override suspend fun startExercise(): EmptyResult<ExerciseError> {
-        if (!isHeartRateTrackingSupported()) {
+        if (!isRunningTrackingSupported()) {
             return Result.Error(ExerciseError.TRACKING_NOT_SUPPORTED)
         }
 
@@ -119,7 +133,12 @@ class HealthServicesExerciseTracker(
         }
 
         val config = ExerciseConfig.builder(ExerciseType.RUNNING)
-            .setDataTypes(setOf(DataType.HEART_RATE_BPM))
+            .setDataTypes(
+                setOf(
+                    DataType.HEART_RATE_BPM,
+                    DataType.STEPS,
+                )
+            )
             .setIsAutoPauseAndResumeEnabled(false)
             .build()
         client.startExercise(config)
@@ -128,7 +147,7 @@ class HealthServicesExerciseTracker(
     }
 
     override suspend fun resumeExercise(): EmptyResult<ExerciseError> {
-        if (!isHeartRateTrackingSupported()) {
+        if (!isRunningTrackingSupported()) {
             return Result.Error(ExerciseError.TRACKING_NOT_SUPPORTED)
         }
 
@@ -146,7 +165,7 @@ class HealthServicesExerciseTracker(
     }
 
     override suspend fun pauseExercise(): EmptyResult<ExerciseError> {
-        if (!isHeartRateTrackingSupported()) {
+        if (!isRunningTrackingSupported()) {
             return Result.Error(ExerciseError.TRACKING_NOT_SUPPORTED)
         }
 
@@ -164,7 +183,7 @@ class HealthServicesExerciseTracker(
     }
 
     override suspend fun stopExercise(): EmptyResult<ExerciseError> {
-        if (!isHeartRateTrackingSupported()) {
+        if (!isRunningTrackingSupported()) {
             return Result.Error(ExerciseError.TRACKING_NOT_SUPPORTED)
         }
 
@@ -203,6 +222,13 @@ class HealthServicesExerciseTracker(
         return ContextCompat.checkSelfPermission(
             context,
             Manifest.permission.BODY_SENSORS
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun hasActivityRecognitionPermission(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.ACTIVITY_RECOGNITION
         ) == PackageManager.PERMISSION_GRANTED
     }
 }

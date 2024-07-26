@@ -93,7 +93,7 @@ private fun TrackerScreen(
         contract = ActivityResultContracts.RequestMultiplePermissions(),
     ) { perms ->
         val hasBodySensorPermission = perms[Manifest.permission.BODY_SENSORS] == true
-        onAction(TrackerAction.OnBodySensorPermissionResult(hasBodySensorPermission))
+        onAction(TrackerAction.OnPermissionResult(hasBodySensorPermission))
     }
 
     val context = LocalContext.current
@@ -102,7 +102,17 @@ private fun TrackerScreen(
             context,
             Manifest.permission.BODY_SENSORS
         ) == PackageManager.PERMISSION_GRANTED
-        onAction(TrackerAction.OnBodySensorPermissionResult(hasBodySensorPermission))
+
+        val hasActivityRecognitionPermission = ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.ACTIVITY_RECOGNITION
+        ) == PackageManager.PERMISSION_GRANTED
+
+        onAction(
+            TrackerAction.OnPermissionResult(
+            hasBodySensorPermission && hasActivityRecognitionPermission
+            )
+        )
 
         val hasNotificationPermission = if (Build.VERSION.SDK_INT >= 33) {
             ContextCompat.checkSelfPermission(
@@ -116,6 +126,9 @@ private fun TrackerScreen(
         val permissions = mutableListOf<String>()
         if (!hasBodySensorPermission) {
             permissions.add(Manifest.permission.BODY_SENSORS)
+        }
+        if (!hasActivityRecognitionPermission) {
+            permissions.add(Manifest.permission.ACTIVITY_RECOGNITION)
         }
         if (!hasNotificationPermission && Build.VERSION.SDK_INT >= 33) {
             permissions.add(Manifest.permission.POST_NOTIFICATIONS)
@@ -149,12 +162,12 @@ private fun TrackerScreen(
             ) {
                 RunDataCard(
                     title = stringResource(id = R.string.heart_rate),
-                    value = if (state.canTrackHeartRate) {
+                    value = if (state.canTrackRunning) {
                         state.heartRate.toFormattedHeartRate()
                     } else {
                         stringResource(id = R.string.unsupported)
                     },
-                    valueTextColor = if (state.canTrackHeartRate) {
+                    valueTextColor = if (state.canTrackRunning) {
                         MaterialTheme.colorScheme.onSurface
                     } else {
                         MaterialTheme.colorScheme.error
@@ -278,8 +291,9 @@ private fun TrackerScreenPreview() {
                 isRunActive = false,
                 isTrackable = true,
                 hasStartedRunning = true,
-                canTrackHeartRate = true,
-                heartRate = 150
+                canTrackRunning = true,
+                heartRate = 150,
+                steps = 5400,
             ),
             onAction = {}
         )

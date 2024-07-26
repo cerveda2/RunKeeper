@@ -53,6 +53,9 @@ class OfflineFirstRunRepository(
 
     override suspend fun upsertRun(run: Run, mapPicture: ByteArray): EmptyResult<DataError> {
         val localResult = localRunDataSource.upsertRun(run)
+        // here it works with steps but the remote sync rewrites this result
+        // change BE config to fix this
+
         if (localResult !is Result.Success) {
             return localResult.asEmptyResult()
         }
@@ -78,7 +81,8 @@ class OfflineFirstRunRepository(
 
             is Result.Success -> {
                 applicationScope.async {
-                    localRunDataSource.upsertRun(remoteResult.data).asEmptyResult()
+                    // data.copy is a temp solution to see the steps at least after the run was finished
+                    localRunDataSource.upsertRun(remoteResult.data.copy(steps = runWithId.steps)).asEmptyResult()
                 }.await()
             }
         }

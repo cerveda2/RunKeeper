@@ -15,6 +15,7 @@ data class RunEntity(
     val maxSpeedKmh: Double,
     val avgHeartRate: Int?,
     val maxHeartRate: Int?,
+    val steps: Int?,
     val totalElevationMeters: Int,
     val mapPictureUrl: String?,
     @PrimaryKey(autoGenerate = false)

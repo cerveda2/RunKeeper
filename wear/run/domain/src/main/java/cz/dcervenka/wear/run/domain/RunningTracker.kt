@@ -23,8 +23,8 @@ class RunningTracker(
     private val exerciseTracker: ExerciseTracker,
     applicationScope: CoroutineScope
 ) {
-    private val _heartRate = MutableStateFlow(0)
-    val heartRate = _heartRate.asStateFlow()
+    private val _exerciseMetrics = MutableStateFlow(ExerciseMetrics(0, 0))
+    val exerciseMetrics = _exerciseMetrics.asStateFlow()
 
     private val _isTracking = MutableStateFlow(false)
     val isTracking = _isTracking.asStateFlow()
@@ -81,12 +81,20 @@ class RunningTracker(
         isTracking
             .flatMapLatest { isTracking ->
                 if (isTracking) {
-                    exerciseTracker.heartRate
+                    exerciseTracker.exerciseMetrics
                 } else flowOf()
             }
-            .onEach { heartRate ->
-                watchToPhoneConnector.sendActionToPhone(MessagingAction.HeartRateUpdate(heartRate))
-                _heartRate.value = heartRate
+            .onEach { metrics ->
+                watchToPhoneConnector.sendActionToPhone(
+                    MessagingAction.WatchMetricsUpdate(
+                        heartRate = metrics.heartRate,
+                        steps = metrics.steps
+                    )
+                )
+                _exerciseMetrics.value = ExerciseMetrics(
+                    heartRate = metrics.heartRate,
+                    steps = metrics.steps
+                )
             }
             .launchIn(applicationScope)
     }

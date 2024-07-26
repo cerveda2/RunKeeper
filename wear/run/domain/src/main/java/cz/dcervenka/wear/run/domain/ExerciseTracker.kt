@@ -4,8 +4,8 @@ import cz.dcervenka.core.domain.util.EmptyResult
 import kotlinx.coroutines.flow.Flow
 
 interface ExerciseTracker {
-    val heartRate: Flow<Int>
-    suspend fun isHeartRateTrackingSupported(): Boolean
+    val exerciseMetrics: Flow<ExerciseMetrics>
+    suspend fun isRunningTrackingSupported(): Boolean
     suspend fun prepareExercise(): EmptyResult<ExerciseError>
     suspend fun startExercise(): EmptyResult<ExerciseError>
     suspend fun resumeExercise(): EmptyResult<ExerciseError>

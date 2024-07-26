@@ -9,7 +9,10 @@ sealed interface MessagingAction {
     data object Trackable : MessagingAction
     data object Untrackable : MessagingAction
     data object ConnectionRequest : MessagingAction
-    data class HeartRateUpdate(val heartRate: Int) : MessagingAction
+    data class WatchMetricsUpdate(
+        val heartRate: Int,
+        val steps: Int,
+    ) : MessagingAction
     data class DistanceUpdate(val distanceMeters: Int) : MessagingAction
     data class TimeUpdate(val elapsedDuration: Duration) : MessagingAction
 }

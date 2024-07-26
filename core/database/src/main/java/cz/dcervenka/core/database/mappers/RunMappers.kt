@@ -24,6 +24,7 @@ fun RunEntity.toRun(): Run {
         mapPictureUrl = mapPictureUrl,
         avgHeartRate = avgHeartRate,
         maxHeartRate = maxHeartRate,
+        steps = steps,
     )
 }
 
@@ -41,5 +42,6 @@ fun Run.toRunEntity(): RunEntity {
         mapPictureUrl = mapPictureUrl,
         avgHeartRate = avgHeartRate,
         maxHeartRate = maxHeartRate,
+        steps = steps,
     )
 }

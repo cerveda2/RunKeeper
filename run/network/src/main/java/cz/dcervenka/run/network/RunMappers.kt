@@ -19,6 +19,7 @@ fun RunDto.toRun(): Run {
         maxHeartRate = maxHeartRate,
         totalElevationMeters = totalElevationMeters,
         mapPictureUrl = mapPictureUrl,
+        steps = 0,
     )
 }
 

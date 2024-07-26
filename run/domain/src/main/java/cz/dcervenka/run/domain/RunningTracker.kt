@@ -63,21 +63,24 @@ class RunningTracker(
             null
         )
 
-    private val heartRates = isTracking
+    private val exerciseMetrics = isTracking
         .flatMapLatest { isTracking ->
             if (isTracking) {
                 watchConnector.messagingActions
             } else flowOf()
         }
-        .filterIsInstance<MessagingAction.HeartRateUpdate>()
-        .map { it.heartRate }
-        .runningFold(initial = emptyList<Int>()) { currentHeartRates, newHeartRate ->
-            currentHeartRates + newHeartRate
+        .filterIsInstance<MessagingAction.WatchMetricsUpdate>()
+        .map { it }
+        .runningFold(initial = AccumulatedExerciseMetrics()) { currentMetrics, newMetrics ->
+            AccumulatedExerciseMetrics(
+                heartRates = currentMetrics.heartRates + newMetrics.heartRate,
+                steps = currentMetrics.steps + newMetrics.steps,
+            )
         }
         .stateIn(
             applicationScope,
             SharingStarted.Lazily,
-            emptyList()
+            AccumulatedExerciseMetrics()
         )
 
     init {
@@ -118,7 +121,7 @@ class RunningTracker(
                     durationTimestamp = elapsedTime
                 )
             }
-            .combine(heartRates) { location, heartRates ->
+            .combine(exerciseMetrics) { location, exerciseMetrics ->
                 val currentLocations = runData.value.locations
                 val lastLocationsList = if (currentLocations.isNotEmpty()) {
                     currentLocations.last() + location
@@ -139,7 +142,8 @@ class RunningTracker(
                         distanceMeters = distanceMeters,
                         pace = avgSecondsPerKm.seconds,
                         locations = newLocationsList,
-                        heartRates = heartRates
+                        heartRates = exerciseMetrics.heartRates,
+                        steps = exerciseMetrics.steps
                     )
                 }
             }

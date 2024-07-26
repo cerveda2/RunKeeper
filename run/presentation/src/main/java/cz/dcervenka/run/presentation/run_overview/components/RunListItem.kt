@@ -255,6 +255,10 @@ private fun DataGrid(
             name = stringResource(id = R.string.max_heart_rate),
             value = run.maxHeartRate
         ),
+        RunDataUi(
+            name = stringResource(id = R.string.steps),
+            value = run.steps
+        ),
     )
     var maxWidth by remember {
         mutableIntStateOf(0)
@@ -314,7 +318,8 @@ private fun RunListItemPreview() {
                 avgHeartRate = 120,
                 maxHeartRate = 150,
                 totalElevationMeters = 123,
-                mapPictureUrl = null
+                mapPictureUrl = null,
+                steps = 4300,
             ).toRunUi(),
             onDeleteClick = { }
         )

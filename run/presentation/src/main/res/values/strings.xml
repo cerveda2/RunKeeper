@@ -28,4 +28,6 @@
     <string name="heart_rate">Heart rate</string>
     <string name="max_heart_rate">Max Heart rate</string>
     <string name="avg_heart_rate">Ø Heart rate</string>
+    <string name="walking_steps">Steps walking</string>
+    <string name="steps">Steps</string>
 </resources>

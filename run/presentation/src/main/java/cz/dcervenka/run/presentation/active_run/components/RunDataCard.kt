@@ -77,6 +77,20 @@ fun RunDataCard(
                     .defaultMinSize(minWidth = 75.dp)
             )
         }
+        Spacer(modifier = Modifier.height(24.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
+            RunDataItem(
+                title = stringResource(id = R.string.walking_steps),
+                value = runData.steps.sum().toString(),
+                modifier = Modifier
+                    .defaultMinSize(minWidth = 75.dp)
+            )
+        }
     }
 }
 
@@ -113,7 +127,8 @@ private fun RunDataCardPreview() {
             runData = RunData(
                 distanceMeters = 3425,
                 pace = 3.minutes,
-                heartRates = listOf(150)
+                heartRates = listOf(150),
+                steps = listOf(2000)
             )
         )
     }

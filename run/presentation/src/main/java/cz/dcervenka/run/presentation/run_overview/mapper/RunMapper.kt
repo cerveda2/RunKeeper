@@ -31,6 +31,7 @@ fun Run.toRunUi(): RunUi {
         maxHeartRate = maxHeartRate.toFormattedHeartRate(),
         pace = duration.toFormattedPace(distanceKm),
         totalElevation = totalElevationMeters.toFormattedMeters(),
-        mapPictureUrl = mapPictureUrl
+        mapPictureUrl = mapPictureUrl,
+        steps = steps.toString(),
     )
 }

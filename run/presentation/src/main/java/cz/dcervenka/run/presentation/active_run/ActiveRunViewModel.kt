@@ -199,6 +199,8 @@ class ActiveRunViewModel(
                 else state.runData.heartRates.max(),
                 totalElevationMeters = LocationDataCalculator.getTotalElevationMeters(locations),
                 mapPictureUrl = null,
+                steps = if (state.runData.steps.isEmpty()) 0
+                else state.runData.steps.sum(),
             )
 
             runningTracker.finishRun()
