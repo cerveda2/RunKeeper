@@ -35,12 +35,10 @@ import androidx.compose.ui.unit.sp
 import cz.dcervenka.auth.domain.PasswordValidationState
 import cz.dcervenka.auth.domain.UserDataValidator
 import cz.dcervenka.auth.presentation.R
-import cz.dcervenka.auth.presentation.login.LoginAction
 import cz.dcervenka.core.presentation.designsystem.CheckIcon
 import cz.dcervenka.core.presentation.designsystem.CrossIcon
 import cz.dcervenka.core.presentation.designsystem.DarkRed
 import cz.dcervenka.core.presentation.designsystem.EmailIcon
-import cz.dcervenka.core.presentation.designsystem.Gray
 import cz.dcervenka.core.presentation.designsystem.Green
 import cz.dcervenka.core.presentation.designsystem.Poppins
 import cz.dcervenka.core.presentation.designsystem.RunKeeperTheme

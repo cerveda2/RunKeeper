@@ -5,21 +5,21 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cz.dcervenka.core.domain.SessionStorage
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
-class MainViewModel(
-    private val sessionStorage: SessionStorage,
-) : ViewModel() {
+class MainViewModel : ViewModel() {
 
     var state by mutableStateOf(MainState())
         private set
+
+    private val auth = FirebaseAuth.getInstance()
 
     init {
         viewModelScope.launch {
             state = state.copy(isCheckingAuth = true)
             state = state.copy(
-                isLoggedIn = sessionStorage.get() != null
+                isLoggedIn = auth.currentUser != null
             )
             state = state.copy(isCheckingAuth = false)
         }

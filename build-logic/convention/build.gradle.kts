@@ -46,9 +46,5 @@ gradlePlugin {
             id = "runkeeper.jvm.library"
             implementationClass = "JvmLibraryConventionPlugin"
         }
-        register("jvmKtor") {
-            id = "runkeeper.jvm.ktor"
-            implementationClass = "JvmKtorConventionPlugin"
-        }
     }
 }

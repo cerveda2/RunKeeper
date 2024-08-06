@@ -9,11 +9,11 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.await
+import com.google.firebase.auth.FirebaseAuth
 import cz.dcervenka.core.database.dao.RunPendingSyncDao
 import cz.dcervenka.core.database.entity.DeletedRunSyncEntity
 import cz.dcervenka.core.database.entity.RunPendingSyncEntity
 import cz.dcervenka.core.database.mappers.toRunEntity
-import cz.dcervenka.core.domain.SessionStorage
 import cz.dcervenka.core.domain.run.Run
 import cz.dcervenka.core.domain.run.RunId
 import cz.dcervenka.core.domain.run.SyncRunScheduler
@@ -28,11 +28,11 @@ import kotlin.time.toJavaDuration
 class SyncRunWorkerScheduler(
     private val context: Context,
     private val pendingSyncDao: RunPendingSyncDao,
-    private val sessionStorage: SessionStorage,
     private val applicationScope: CoroutineScope
 ) : SyncRunScheduler {
 
     private val workManager = WorkManager.getInstance(context)
+    private val auth = FirebaseAuth.getInstance()
 
     override suspend fun scheduleSync(type: SyncRunScheduler.SyncType) {
         when (type) {
@@ -46,7 +46,7 @@ class SyncRunWorkerScheduler(
     }
 
     private suspend fun scheduleDeleteRunWorker(runId: RunId) {
-        val userId = sessionStorage.get()?.userId ?: return
+        val userId = auth.currentUser?.uid ?: return
         val entity = DeletedRunSyncEntity(
             runId = runId,
             userId = userId
@@ -78,7 +78,7 @@ class SyncRunWorkerScheduler(
     }
 
     private suspend fun scheduleCreateRunWorker(run: Run, mapPictureBytes: ByteArray) {
-        val userId = sessionStorage.get()?.userId ?: return
+        val userId = auth.currentUser?.uid ?: return
         val pendingRun = RunPendingSyncEntity(
             run = run.toRunEntity(),
             mapPictureBytes = mapPictureBytes,

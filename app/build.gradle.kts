@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.runkeeper.android.application.compose)
-    alias(libs.plugins.runkeeper.jvm.ktor)
+    alias(libs.plugins.googleServices)
 }
 
 android {
@@ -46,6 +46,9 @@ dependencies {
     implementation(libs.bundles.koin)
 
     api(libs.play.feature.delivery)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

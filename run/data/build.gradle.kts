@@ -12,6 +12,9 @@ dependencies {
     implementation(libs.androidx.work)
     implementation(libs.koin.android.workmanager)
     implementation(libs.kotlinx.serialization.json)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
 
     implementation(projects.core.domain)
     implementation(projects.core.database)

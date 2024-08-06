@@ -1,7 +1,7 @@
 package cz.dcervenka.auth.data.di
 
-import cz.dcervenka.auth.data.AuthRepositoryImpl
 import cz.dcervenka.auth.data.EmailPatternValidator
+import cz.dcervenka.auth.data.FirebaseAuthRepositoryImpl
 import cz.dcervenka.auth.domain.AuthRepository
 import cz.dcervenka.auth.domain.PatternValidator
 import cz.dcervenka.auth.domain.UserDataValidator
@@ -14,5 +14,5 @@ val authDataModule = module {
         EmailPatternValidator
     }
     singleOf(::UserDataValidator)
-    singleOf(::AuthRepositoryImpl).bind<AuthRepository>()
+    singleOf(::FirebaseAuthRepositoryImpl).bind<AuthRepository>()
 }

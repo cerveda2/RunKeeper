@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "313705131954",
+    "project_id": "runkeeper-60f28",
+    "storage_bucket": "runkeeper-60f28.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:313705131954:android:acdfa429705187c61c3eab",
+        "android_client_info": {
+          "package_name": "cz.dcervenka.runkeeper"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeAfy5SzzIAKYQIlIgEVRCb6kAvM5onx4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

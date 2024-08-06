@@ -1,9 +1,8 @@
 package cz.dcervenka.core.data.run
 
-import cz.dcervenka.core.data.networking.get
+import com.google.firebase.auth.FirebaseAuth
 import cz.dcervenka.core.database.dao.RunPendingSyncDao
 import cz.dcervenka.core.database.mappers.toRun
-import cz.dcervenka.core.domain.SessionStorage
 import cz.dcervenka.core.domain.run.LocalRunDataSource
 import cz.dcervenka.core.domain.run.RemoteRunDataSource
 import cz.dcervenka.core.domain.run.Run
@@ -14,10 +13,6 @@ import cz.dcervenka.core.domain.util.DataError
 import cz.dcervenka.core.domain.util.EmptyResult
 import cz.dcervenka.core.domain.util.Result
 import cz.dcervenka.core.domain.util.asEmptyResult
-import io.ktor.client.HttpClient
-import io.ktor.client.plugins.auth.Auth
-import io.ktor.client.plugins.auth.providers.BearerAuthProvider
-import io.ktor.client.plugins.plugin
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -31,10 +26,10 @@ class OfflineFirstRunRepository(
     private val remoteRunDataSource: RemoteRunDataSource,
     private val applicationScope: CoroutineScope,
     private val runPendingSyncDao: RunPendingSyncDao,
-    private val sessionStorage: SessionStorage,
     private val syncRunScheduler: SyncRunScheduler,
-    private val client: HttpClient,
 ) : RunRepository {
+
+    private val auth = FirebaseAuth.getInstance()
 
     override fun getRuns(): Flow<List<Run>> {
         return localRunDataSource.getRuns()
@@ -110,7 +105,7 @@ class OfflineFirstRunRepository(
 
     override suspend fun syncPendingRuns() {
         withContext(Dispatchers.IO) {
-            val userId = sessionStorage.get()?.userId ?: return@withContext
+            val userId = auth.currentUser?.uid ?: return@withContext
 
             val createdRuns = async {
                 runPendingSyncDao.getAllRunPendingSyncEntities(userId)
@@ -159,13 +154,15 @@ class OfflineFirstRunRepository(
     }
 
     override suspend fun logout(): EmptyResult<DataError.Network> {
-        val result = client.get<Unit>(
+        auth.signOut()
+
+        /*val result = client.get<Unit>(
             route = "/logout"
         ).asEmptyResult()
 
         client.plugin(Auth).providers.filterIsInstance<BearerAuthProvider>()
-            .firstOrNull()?.clearToken()
+            .firstOrNull()?.clearToken()*/
 
-        return result
+        return Result.Success(Unit)
     }
 }

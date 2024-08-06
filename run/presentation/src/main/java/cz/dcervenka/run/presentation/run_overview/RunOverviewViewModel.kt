@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cz.dcervenka.core.domain.SessionStorage
 import cz.dcervenka.core.domain.run.RunRepository
 import cz.dcervenka.core.domain.run.SyncRunScheduler
 import cz.dcervenka.run.presentation.run_overview.mapper.toRunUi
@@ -19,7 +18,6 @@ class RunOverviewViewModel(
     private val runRepository: RunRepository,
     private val syncRunScheduler: SyncRunScheduler,
     private val applicationScope: CoroutineScope,
-    private val sessionStorage: SessionStorage,
 ) : ViewModel() {
 
     var state by mutableStateOf(RunOverviewState())
@@ -62,7 +60,6 @@ class RunOverviewViewModel(
             syncRunScheduler.cancelAllSyncs()
             runRepository.deleteAllRuns()
             runRepository.logout()
-            sessionStorage.set(null)
         }
     }
 }
